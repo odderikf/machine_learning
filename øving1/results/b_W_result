@@ -1,0 +1,13 @@
+
+minimize_op = tf.train.GradientDescentOptimizer(0.0001).minimize(loss_tf)
+for epoch in range(400000):
+
+W = [[20.421   ]
+ [44.583565]], b = [[-1475.6418]], loss = 26652.91
+
+
+
+
+for epoch in range(1600000):
+W = [[26.880215]
+ [29.92442 ]], b = [[-1871.872]], loss = 23423.32
