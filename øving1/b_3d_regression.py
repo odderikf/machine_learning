@@ -1,4 +1,4 @@
-
+#%% setup
 import numpy as np
 import tensorflow as tf
 
@@ -39,26 +39,28 @@ session = tf.Session()
 
 session.run(tf.global_variables_initializer())
 
-for epoch in range(1600000):
+#%% train
+for epoch in range(100000):
     session.run(minimize_op, {x_tf: x_train, y_tf: y_train})
 
 W, b, loss = session.run([W_tf, b_tf, loss_tf], {x_tf: x_train, y_tf: y_train})
 print("W = %s, b = %s, loss = %s" % (W, b, loss))
 
-session.close()
-
-
+#%% graph
 fig = plt.figure()
 ax = fig.add_subplot(111, projection="3d")
 
 x_scatt, z_scatt = [i.tolist()[0] for i in x_train.T]
 y_scatt = y_train.T.tolist()[0]
-ax.scatter3D(x_scatt, y_scatt, z_scatt, c='r')
+ax.scatter3D(x_scatt, y_scatt, z_scatt, c='r', alpha=0.5)
 
 x_lin = np.linspace(float(min(x_scatt)), float(max(x_scatt)))
 z_lin = np.linspace(float(min(z_scatt)), float(max(z_scatt)))
 x_mesh, z_mesh = np.meshgrid(x_lin, z_lin)
 X_mat = np.mat([x_mesh.tolist()[0], z_mesh.tolist()[0]]).T
 y_plt = x_mesh*W[0] + z_mesh*W[1] + b
-ax.plot_surface(x_mesh, y_plt, z_mesh, alpha=0.3)
+ax.plot_surface(x_mesh, y_plt, z_mesh, alpha=0.3, color='blue')
 plt.show()
+
+#%% close
+session.close()
