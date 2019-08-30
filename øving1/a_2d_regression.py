@@ -1,4 +1,4 @@
-
+#%% setup
 import numpy as np
 import tensorflow as tf
 
@@ -36,16 +36,19 @@ session = tf.Session()
 
 session.run(tf.global_variables_initializer())
 
-for epoch in range(140000):
+#%% train
+for epoch in range(100000):
     session.run(minimize_op, {x_tf: x_train, y_tf: y_train})
 
 W, b, loss = session.run([W_tf, b_tf, loss_tf], {x_tf: x_train, y_tf: y_train})
 print("W = %s, b = %s, loss = %s" % (W, b, loss))
 
-session.close()
-
-plt.scatter(x_train.T.tolist()[0], y_train.T.tolist()[0])
+#%% graph
+plt.scatter(x_train.T.tolist()[0], y_train.T.tolist()[0], c='red', alpha=0.5)
 x_plt = np.linspace(float(min(x_train)), float(max(x_train)))
 
-plt.plot(x_plt, float(W)*x_plt+float(b), 'r')
+plt.plot(x_plt, float(W)*x_plt+float(b), c='blue')
 plt.show()
+
+#%% close
+session.close()
