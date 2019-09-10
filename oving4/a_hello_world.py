@@ -12,10 +12,10 @@ class LongShortTermMemoryModel:
         cell = tf.nn.rnn_cell.BasicLSTMCell(cell_state_size)
 
         # Model input
-        self.batch_size = tf.placeholder(tf.int32, [])  # Needed by cell.zero_state call, and can be dependent on usage (training or generation)
-        self.x = tf.placeholder(tf.float32, [None, None, encoding_size])  # Shape: [batch_size, max_time, encoding_size]
-        self.y = tf.placeholder(tf.float32, [None, None, encoding_size])  # Shape: [batch_size, max_time, encoding_size]
-        self.in_state = cell.zero_state(self.batch_size, tf.float32)  # Can be used as either an input or a way to get the zero state
+        self.batch_size = tf.placeholder(tf.int32, [])
+        self.x = tf.placeholder(tf.float32, [None, None, encoding_size])
+        self.y = tf.placeholder(tf.float32, [None, None, encoding_size])
+        self.in_state = cell.zero_state(self.batch_size, tf.float32)
 
         # Model variables
         W = tf.Variable(tf.random_normal([cell_state_size, encoding_size]))
@@ -59,7 +59,7 @@ zero_state = session.run(model.in_state, {model.batch_size: 1})
 for epoch in range(500):
     session.run(minimize_operation, {model.batch_size: 1, model.x: [x_train], model.y: [y_train], model.in_state: zero_state})
 
-    if epoch % 10 == 9:
+    if epoch % 10 == 0:
         print("epoch", epoch)
         print("loss", session.run(model.loss, {model.batch_size: 1, model.x: [x_train], model.y: [y_train], model.in_state: zero_state}))
 
