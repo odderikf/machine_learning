@@ -22,7 +22,7 @@ class LongShortTermMemoryModel:
         b = tf.Variable(tf.random_normal([encoding_size]))
 
         # Model operations
-        lstm, self.out_state = tf.nn.dynamic_rnn(cell, self.x, initial_state=self.in_state)  # lstm has shape: [batch_size, max_time, cell_state_size]
+        lstm, self.out_state = tf.nn.dynamic_rnn(cell, self.x, initial_state=self.in_state, dtype=tf.float32)
 
         # Logits, where tf.einsum multiplies a batch of txs matrices (lstm) with W
         logits = tf.nn.bias_add(tf.einsum('bts,se->bte', lstm, W), b)  # b: batch, t: time, s: state, e: encoding
